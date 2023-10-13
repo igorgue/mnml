@@ -19,7 +19,7 @@ require("lazy").setup({
     -- no config plugins
     "folke/neodev.nvim",
     "folke/tokyonight.nvim",
-    -- { "igorgue/danger",     dir = "~/Code/danger" },
+    -- { "igorgue/danger", dir = "~/Code/danger" },
     "igorgue/danger",
     "nvim-lua/plenary.nvim",
     "github/copilot.vim",
@@ -28,8 +28,7 @@ require("lazy").setup({
     { "folke/neoconf.nvim", cmd = "Neoconf" },
     {
       "folke/which-key.nvim",
-      keys = { { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" },
-      },
+      keys = { { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" }, },
     },
     {
       "williamboman/mason.nvim",
@@ -58,20 +57,20 @@ require("lazy").setup({
       "nvimtools/none-ls.nvim",
       config = function()
         local none_ls = require("null-ls")
-        -- local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
         local sources = { none_ls.builtins.formatting.stylua }
 
         none_ls.setup({
           sources = sources,
           on_attach = function(client, bufnr)
             if client.supports_method("textDocument/formatting") then
-              -- vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+              vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 
               vim.api.nvim_create_autocmd("BufWritePre", {
-                -- group = augroup,
+                group = augroup,
                 buffer = bufnr,
-                callback = function(event)
-                  vim.lsp.buf.format({ bufnr = event.buff })
+                callback = function()
+                  vim.lsp.buf.format({ bufnr = bufnr })
                 end,
               })
             end
@@ -213,7 +212,6 @@ vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.ignorecase = true      -- Ignore case
 vim.opt.inccommand = "nosplit" -- preview incremental substitute
--- vim.opt.laststatus = 3         -- global statusline
 vim.opt.list = true            -- Show some invisible characters (tabs...
 vim.opt.mouse = "a"            -- Enable mouse mode
 vim.opt.pumblend = 10          -- Popup blend
@@ -281,43 +279,6 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 -- AUTOCOMMANDS --
 
 local wk = require("which-key")
-
-local function map_complete(char)
-  if char == nil then
-    char = "."
-  end
-
-  wk.register({
-    [char] = {
-      function()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(char, true, true, true), "n", true)
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-x><C-o>", true, true, true), "n", true)
-      end,
-      "Omnicomplete",
-      mode = { "i" },
-    },
-  }, { buffer = vim.api.nvim_get_current_buf() })
-end
-
--- lua
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
-  callback = function()
-    vim.bo.tabstop = 2
-    vim.bo.softtabstop = 2
-    vim.bo.shiftwidth = 2
-    vim.bo.expandtab = true
-
-    vim.lsp.start({
-      name = "lua-language-server",
-      filetypes = { "lua" },
-      cmd = { "lua-language-server" },
-      root_dir = vim.fn.getcwd(),
-    })
-
-    map_complete()
-  end,
-})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
