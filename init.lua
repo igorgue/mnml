@@ -16,48 +16,62 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   spec = {
+    -- no config plugins
+    "folke/neodev.nvim",
+    "folke/tokyonight.nvim",
+    -- { "igorgue/danger",     dir = "~/Code/danger" },
+    "igorgue/danger",
+    "nvim-lua/plenary.nvim",
+    "github/copilot.vim",
+
+    -- much config plugins
     { "folke/neoconf.nvim", cmd = "Neoconf" },
     {
       "folke/which-key.nvim",
-      keys = {
-        { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" },
+      keys = { { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" },
       },
     },
-    "folke/neodev.nvim",
-    "folke/tokyonight.nvim",
-    "igorgue/danger",
+    {
+      "williamboman/mason.nvim",
+      opts = {
+        pip = {
+          upgrade_pip = true,
+        },
+        ui = {
+          border = "single",
+          winhighlight = "Normal:Normal,FloatBorder:VertSplit,CursorLine:CursorLine,Search:Search",
+        },
+      },
+    },
     {
       "echasnovski/mini.surround",
       keys = {
         { "S", [[:<C-u>lua MiniSurround.add('visual')<cr>]], desc = "Add Surrounding", mode = "x" },
       },
     },
-    "nvim-lua/plenary.nvim",
     {
       "numToStr/Comment.nvim",
       event = { "BufReadPost", "BufNewFile" },
       config = true,
     },
-    "github/copilot.vim",
     {
       "nvimtools/none-ls.nvim",
       config = function()
         local none_ls = require("null-ls")
-        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-        local sources = { none_ls.builtins.formatting.stylua, none_ls.builtins.completion.splell }
+        -- local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+        local sources = { none_ls.builtins.formatting.stylua }
 
         none_ls.setup({
           sources = sources,
           on_attach = function(client, bufnr)
             if client.supports_method("textDocument/formatting") then
-              vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+              -- vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+
               vim.api.nvim_create_autocmd("BufWritePre", {
-                group = augroup,
+                -- group = augroup,
                 buffer = bufnr,
-                callback = function()
-                  -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                  -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-                  vim.lsp.buf.format()
+                callback = function(event)
+                  vim.lsp.buf.format({ bufnr = event.buff })
                 end,
               })
             end
@@ -199,7 +213,7 @@ vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.ignorecase = true      -- Ignore case
 vim.opt.inccommand = "nosplit" -- preview incremental substitute
-vim.opt.laststatus = 3         -- global statusline
+-- vim.opt.laststatus = 3         -- global statusline
 vim.opt.list = true            -- Show some invisible characters (tabs...
 vim.opt.mouse = "a"            -- Enable mouse mode
 vim.opt.pumblend = 10          -- Popup blend
@@ -208,9 +222,9 @@ vim.opt.scrolloff = 4          -- Lines of context
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 vim.opt.shiftround = true      -- Round indent
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
-vim.opt.showmode = false       -- Dont show mode since we have a statusline
+vim.opt.showmode = true        -- show mode
 vim.opt.sidescrolloff = 8      -- Columns of context
-vim.opt.signcolumn = "auto"    -- Always show the signcolumn, otherwise it would shift the text each time
+vim.opt.signcolumn = "auto"    -- Show or hide signcolumn
 vim.opt.smartcase = true       -- Don't ignore case with capitals
 vim.opt.smartindent = true     -- Insert indents automatically
 vim.opt.spelllang = { "en" }
@@ -268,7 +282,11 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 
 local wk = require("which-key")
 
-local function map_complete_on(char)
+local function map_complete(char)
+  if char == nil then
+    char = "."
+  end
+
   wk.register({
     [char] = {
       function()
@@ -297,7 +315,7 @@ vim.api.nvim_create_autocmd("FileType", {
       root_dir = vim.fn.getcwd(),
     })
 
-    map_complete_on(".")
+    map_complete()
   end,
 })
 
