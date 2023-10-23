@@ -43,6 +43,7 @@ require("lazy").setup({
     },
     {
       "echasnovski/mini.surround",
+      config = true,
       keys = {
         { "S", [[:<C-u>lua MiniSurround.add('visual')<cr>]], desc = "Add Surrounding", mode = "x" },
       },
@@ -107,7 +108,6 @@ require("lazy").setup({
       dependencies = {
         "kkharji/sqlite.lua",
         "nvim-telescope/telescope-smart-history.nvim",
-        "nvim-telescope/telescope-ui-select.nvim",
         "danielfalk/smart-open.nvim",
         "nvim-telescope/telescope-fzy-native.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -116,7 +116,6 @@ require("lazy").setup({
       enabled = not vim.o.diff,
       opts = function()
         local actions = require("telescope.actions")
-        local themes = require("telescope.themes")
 
         return {
           defaults = {
@@ -156,11 +155,6 @@ require("lazy").setup({
               override_generic_sorter = false,
               override_file_sorter = true,
             },
-            ["ui-select"] = {
-              themes.get_dropdown({
-                borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-              }),
-            },
           },
         }
       end,
@@ -169,7 +163,6 @@ require("lazy").setup({
 
         telescope.setup(opts)
 
-        telescope.load_extension("ui-select")
         telescope.load_extension("smart_open")
         telescope.load_extension("fzy_native")
         telescope.load_extension("fzf")
@@ -267,6 +260,9 @@ local diagnostic_config = {
   signs = true,
   update_in_insert = true,
   severity_sort = true,
+  float = {
+    border = "single",
+  },
 }
 
 vim.diagnostic.config(diagnostic_config)
@@ -280,11 +276,22 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 local wk = require("which-key")
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
     wk.register({
       K = { vim.lsp.buf.hover, "Hover" },
+      gD = { vim.lsp.buf.declaration, "Goto Declaration" },
+      gd = { vim.lsp.buf.definition, "Goto Definition" },
+      gi = { vim.lsp.buf.implementation, "Goto Implementation" },
       ["<leader>k"] = { vim.lsp.buf.signature_help, "Signature Help" },
-    }, { buffer = args.buf })
+      ["<leader>wa"] = { vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
+      ["<leader>wr"] = { vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
+      ["<leader>wl"] = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+        "List Workspace Folders" },
+      ["<leader>D"] = { vim.lsp.buf.type_definition, "Type Definition" },
+    }, { buffer = ev.buf })
 
     wk.register({
       r = { vim.lsp.buf.rename, "Rename" },
@@ -294,7 +301,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       p = { vim.lsp.diagnostic.goto_prev, "Previous Diagnostic" },
       f = { vim.lsp.buf.formatting, "Format" },
       e = { vim.lsp.diagnostic.set_loclist, "Set Loclist" },
-    }, { buffer = args.buf, prefix = "<leader>c", name = "code" })
+    }, { buffer = ev.buf, prefix = "<leader>c", name = "code" })
   end,
 })
 
@@ -337,6 +344,13 @@ wk.register({
   ["<C-h>"] = { "<C-w>h", "Go To Window Left", mode = { "n" } },
   ["<C-j>"] = { "<C-w>j", "Go To Window Down", mode = { "n" } },
   ["<C-l>"] = { "<C-w>l", "Go To Window Right", mode = { "n" } },
+})
+
+wk.register({
+  ["<leader>e"] = { vim.diagnostic.open_float, "Diagnostics Open Float", mode = { "n" } },
+  ["[d"] = { vim.diagnostic.goto_prev, "Diagnostics Goto Prev", mode = { "n" } },
+  ["]d"] = { vim.diagnostic.goto_next, "Diagnostics Goto Next", mode = { "n" } },
+  ["<space>q"] = { vim.diagnostic.setloclist, "Diagnostics Set Loclist", mode = { "n" } },
 })
 
 -- ctrl+s to save on insert mode
