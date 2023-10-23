@@ -10,6 +10,13 @@ vim.lsp.start({
   filetypes = { "lua" },
   cmd = { "lua-language-server" },
   root_dir = vim.fn.getcwd(),
+  settings = {
+    Lua = {
+      completion = {
+        keywordSnippet = "Disable",
+      },
+    },
+  },
 })
 
 utils.map_complete()
