@@ -19,7 +19,6 @@ require("lazy").setup({
     -- no config plugins
     "folke/neodev.nvim",
     "folke/tokyonight.nvim",
-    -- { "igorgue/danger", dir = "~/Code/danger" },
     "igorgue/danger",
     "nvim-lua/plenary.nvim",
     "github/copilot.vim",
@@ -28,7 +27,7 @@ require("lazy").setup({
     { "folke/neoconf.nvim", cmd = "Neoconf" },
     {
       "folke/which-key.nvim",
-      keys = { { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" }, },
+      keys = { { "<leader>?", "<cmd>WhichKey<cr>", desc = "Help" } },
     },
     {
       "williamboman/mason.nvim",
