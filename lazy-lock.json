@@ -1,7 +1,7 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
-  "conform.nvim": { "branch": "master", "commit": "7f5ff6d253ae3543f186787bccafdc411d3f4b0a" },
-  "copilot.vim": { "branch": "release", "commit": "59c02393c99335392e9cb572cb47951bbb4de6be" },
+  "conform.nvim": { "branch": "master", "commit": "e4ecb6e8ed3163c86d7e647f1dc3d94de77ca687" },
+  "copilot.vim": { "branch": "release", "commit": "c1d9ea495caa608c6652c952ff07ff2fa1afbe0d" },
   "danger": { "branch": "main", "commit": "b3c7e4cbee62b755e1a50fd6364ca17025b4548c" },
   "lazy.nvim": { "branch": "main", "commit": "e42fccc3cda70266e0841c5126de2c23e8982800" },
   "mason.nvim": { "branch": "main", "commit": "cd7835b15f5a4204fc37e0aa739347472121a54c" },

@@ -143,13 +143,13 @@ require("lazy").setup({
         telescope.load_extension("fzf")
       end,
       keys = {
-        { "<leader>/",        "<cmd>Telescope live_grep<cr>",                     desc = "Find In Files" },
-        { "<leader>ff",       "<cmd>Telescope find_files<cr>",                    desc = "Find Files" },
-        { "<leader>fg",       "<cmd>Telescope git_files<cr>",                     desc = "Find Git Files" },
-        { "<leader>fs",       "<cmd>Telescope smart_open<cr>",                    desc = "Smart Open" },
-        { "<leader><leader>", "<cmd>Telescope smart_open<cr>",                    desc = "Smart Open" },
-        { "<leader>ss",       "<cmd>Telescope lsp_document_symbols<cr>",          desc = "Goto Symbol" },
-        { "<leader>sS",       "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Goto Symbol (Workspace)" },
+        { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Find In Files" },
+        { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+        { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Git Files" },
+        { "<leader>fs", "<cmd>Telescope smart_open<cr>", desc = "Smart Open" },
+        { "<leader><leader>", "<cmd>Telescope smart_open<cr>", desc = "Smart Open" },
+        { "<leader>ss", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Goto Symbol" },
+        { "<leader>sS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Goto Symbol (Workspace)" },
       },
     },
   },
@@ -170,37 +170,37 @@ vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.splitkeep = "screen"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.autowrite = true           -- Enable auto write
-vim.opt.clipboard = "unnamedplus"  -- Sync with system clipboard
-vim.opt.conceallevel = 3           -- Hide * markup for bold and italic
-vim.opt.confirm = true             -- Confirm to save changes before exiting modified buffer
+vim.opt.autowrite = true -- Enable auto write
+vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
+vim.opt.conceallevel = 3 -- Hide * markup for bold and italic
+vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
 vim.opt.formatoptions = "jcroqlnt" -- tcqj
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
-vim.opt.ignorecase = true      -- Ignore case
+vim.opt.ignorecase = true -- Ignore case
 vim.opt.inccommand = "nosplit" -- preview incremental substitute
-vim.opt.list = true            -- Show some invisible characters (tabs...
-vim.opt.mouse = "a"            -- Enable mouse mode
-vim.opt.pumblend = 10          -- Popup blend
-vim.opt.pumheight = 10         -- Maximum number of entries in a popup
-vim.opt.scrolloff = 4          -- Lines of context
+vim.opt.list = true -- Show some invisible characters (tabs...
+vim.opt.mouse = "a" -- Enable mouse mode
+vim.opt.pumblend = 10 -- Popup blend
+vim.opt.pumheight = 10 -- Maximum number of entries in a popup
+vim.opt.scrolloff = 4 -- Lines of context
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
-vim.opt.shiftround = true      -- Round indent
+vim.opt.shiftround = true -- Round indent
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
-vim.opt.showmode = true        -- show mode
-vim.opt.sidescrolloff = 8      -- Columns of context
-vim.opt.signcolumn = "auto"    -- Show or hide signcolumn
-vim.opt.smartcase = true       -- Don't ignore case with capitals
-vim.opt.smartindent = true     -- Insert indents automatically
+vim.opt.showmode = true -- show mode
+vim.opt.sidescrolloff = 8 -- Columns of context
+vim.opt.signcolumn = "auto" -- Show or hide signcolumn
+vim.opt.smartcase = true -- Don't ignore case with capitals
+vim.opt.smartindent = true -- Insert indents automatically
 vim.opt.spelllang = { "en" }
-vim.opt.termguicolors = true   -- True color support
+vim.opt.termguicolors = true -- True color support
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
-vim.opt.updatetime = 200               -- Save swap file and trigger CursorHold
+vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
-vim.opt.winminwidth = 5                -- Minimum window width
-vim.opt.wrap = false                   -- Disable line wrap
+vim.opt.winminwidth = 5 -- Minimum window width
+vim.opt.wrap = false -- Disable line wrap
 vim.opt.fillchars = {
   foldopen = "",
   foldclose = "",
@@ -241,7 +241,7 @@ local diagnostic_config = {
 
 vim.diagnostic.config(diagnostic_config)
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, diagnostic_config)
+  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, diagnostic_config)
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 
