@@ -18,7 +18,6 @@ require("lazy").setup({
   spec = {
     -- no config plugins
     "folke/neodev.nvim",
-    "folke/tokyonight.nvim",
     "igorgue/danger",
     "nvim-lua/plenary.nvim",
     "github/copilot.vim",
@@ -59,12 +58,12 @@ require("lazy").setup({
         format = {
           timeout_ms = 5000,
           async = true,
-          lsp_fallback = "always",
+          lsp_fallback = true,
           quiet = true,
         },
         format_on_save = {
           timeout_ms = 5000,
-          lsp_fallback = "always",
+          lsp_fallback = true,
         },
         formatters_by_ft = {
           elixir = { "mix" },
@@ -73,7 +72,7 @@ require("lazy").setup({
           python = { "black", "isort", "ruff_format", "ruff_fix" },
           bash = { "shfmt" },
           zsh = { "shfmt" },
-          ["*"] = { "codespell" },
+          -- ["*"] = { "codespell" },
           ["_"] = { "trim_whitespace" },
         },
       },
@@ -97,8 +96,8 @@ require("lazy").setup({
             preview = {
               treesitter = false,
             },
-            prompt_prefix = "  ",
-            selection_caret = "  ",
+            prompt_prefix = "   ",
+            selection_caret = " ",
             mappings = {
               i = {
                 ["<esc>"] = actions.close,
