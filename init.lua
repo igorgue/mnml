@@ -35,7 +35,7 @@ require("lazy").setup({
           upgrade_pip = true,
         },
         ui = {
-          border = "single",
+          border = "rounded",
           winhighlight = "Normal:Normal,FloatBorder:VertSplit,CursorLine:CursorLine,Search:Search",
         },
       },
@@ -72,8 +72,7 @@ require("lazy").setup({
           python = { "black", "isort", "ruff_format", "ruff_fix" },
           bash = { "shfmt" },
           zsh = { "shfmt" },
-          -- ["*"] = { "codespell" },
-          ["_"] = { "trim_whitespace" },
+          ["*"] = { "trim_newlines", "trim_whitespace" },
         },
       },
     },
@@ -116,7 +115,7 @@ require("lazy").setup({
               cycle_wrap = true,
               limit = 100,
             },
-            borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+            -- borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
           },
           extensions = {
             fzf = {
@@ -142,18 +141,18 @@ require("lazy").setup({
         telescope.load_extension("fzf")
       end,
       keys = {
+        { "<leader><leader>", "<cmd>Telescope smart_open<cr>", desc = "Smart Open" },
         { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Find In Files" },
         { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
         { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Git Files" },
         { "<leader>fs", "<cmd>Telescope smart_open<cr>", desc = "Smart Open" },
-        { "<leader><leader>", "<cmd>Telescope smart_open<cr>", desc = "Smart Open" },
         { "<leader>ss", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Goto Symbol" },
         { "<leader>sS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Goto Symbol (Workspace)" },
       },
     },
   },
   ui = {
-    border = "single",
+    border = "rounded",
   },
 })
 
@@ -212,9 +211,9 @@ vim.opt.fillchars = {
 vim.opt.listchars = {
   tab = "──",
   -- lead = " ",
-  -- trail = "·",
+  trail = "·",
   nbsp = "␣",
-  -- "eol:↵",
+  -- eol = "↵",
   precedes = "«",
   extends = "»",
 }
@@ -234,15 +233,15 @@ local diagnostic_config = {
   update_in_insert = true,
   severity_sort = true,
   float = {
-    border = "single",
+    border = "rounded",
   },
 }
 
 vim.diagnostic.config(diagnostic_config)
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
   vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, diagnostic_config)
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
 -- AUTOCOMMANDS --
 

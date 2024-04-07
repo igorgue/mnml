@@ -1,8 +1,8 @@
+local wk = require("which-key")
+
 local M = {}
 
 M.map_complete = function(char)
-  local wk = require("which-key")
-
   if char == nil then
     char = "."
   end
